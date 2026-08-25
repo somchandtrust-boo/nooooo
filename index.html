@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050814">
-<meta name="description" content="Simple Alexa Style Voice Assistant">
-<title>My Voice Assistant</title>
+<meta name="description" content="CBRND Alexa - Multilingual Voice Assistant">
+<title>CBRND Alexa</title>
 
 <style>
 *{
@@ -18,41 +18,44 @@
 body{
     min-height:100vh;
     background:
-        radial-gradient(circle at 50% 35%,#17245a 0%,#080d20 38%,#03050c 75%);
-    color:white;
+    radial-gradient(circle at 50% 35%,#18265f 0%,#080d20 40%,#02040b 80%);
+    color:#fff;
     overflow-x:hidden;
 }
 
 body::before{
     content:"";
     position:fixed;
-    width:500px;
-    height:500px;
+    width:550px;
+    height:550px;
     left:50%;
-    top:40%;
+    top:42%;
     transform:translate(-50%,-50%);
-    background:radial-gradient(circle,rgba(0,180,255,.16),transparent 65%);
+    background:radial-gradient(
+        circle,
+        rgba(0,200,255,.17),
+        transparent 65%
+    );
     pointer-events:none;
 }
 
 .app{
-    width:100%;
     min-height:100vh;
+    width:100%;
     display:flex;
     flex-direction:column;
     align-items:center;
-    padding:20px;
+    padding:18px;
 }
 
 /* HEADER */
 
 header{
     width:100%;
-    max-width:1000px;
+    max-width:1050px;
     display:flex;
-    justify-content:space-between;
     align-items:center;
-    padding:10px 5px;
+    justify-content:space-between;
 }
 
 .logo{
@@ -62,28 +65,38 @@ header{
 }
 
 .logo-icon{
-    width:45px;
-    height:45px;
+    width:48px;
+    height:48px;
     border-radius:50%;
-    background:linear-gradient(135deg,#00d9ff,#536dfe);
     display:flex;
     align-items:center;
     justify-content:center;
-    box-shadow:0 0 25px rgba(0,210,255,.55);
-    font-size:22px;
+    font-size:23px;
+    background:linear-gradient(
+        135deg,
+        #00d9ff,
+        #3f51ff
+    );
+    box-shadow:0 0 28px rgba(0,200,255,.55);
 }
 
 .logo-text{
     font-size:20px;
     font-weight:bold;
-    letter-spacing:.5px;
+    letter-spacing:.6px;
+}
+
+.logo-sub{
+    color:#667696;
+    font-size:10px;
+    margin-top:3px;
 }
 
 .status{
     display:flex;
     align-items:center;
     gap:8px;
-    color:#9aa7c7;
+    color:#8998ba;
     font-size:13px;
 }
 
@@ -92,46 +105,89 @@ header{
     height:9px;
     border-radius:50%;
     background:#00e676;
-    box-shadow:0 0 12px #00e676;
+    box-shadow:0 0 13px #00e676;
 }
 
 /* MAIN */
 
 .main{
     width:100%;
-    max-width:900px;
+    max-width:950px;
+    flex:1;
     display:flex;
     flex-direction:column;
     align-items:center;
-    flex:1;
     justify-content:center;
-    padding:20px 0 30px;
+    padding:20px 0 25px;
 }
 
 .greeting{
     text-align:center;
-    margin-bottom:28px;
+    margin-bottom:15px;
 }
 
 .greeting h1{
-    font-size:clamp(28px,5vw,48px);
-    margin-bottom:10px;
-    background:linear-gradient(90deg,#fff,#7ddcff);
+    font-size:clamp(30px,5vw,48px);
+    background:linear-gradient(
+        90deg,
+        #ffffff,
+        #7de7ff
+    );
     -webkit-background-clip:text;
     color:transparent;
+    margin-bottom:8px;
 }
 
 .greeting p{
-    color:#8d9bbd;
-    font-size:15px;
+    color:#7d8cad;
+    font-size:14px;
+}
+
+/* LANGUAGE */
+
+.language-panel{
+    display:flex;
+    gap:7px;
+    padding:6px;
+    margin:15px 0 10px;
+    border-radius:18px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+}
+
+.language-btn{
+    border:none;
+    background:transparent;
+    color:#8e9cbb;
+    padding:9px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:13px;
+    transition:.2s;
+}
+
+.language-btn:hover{
+    color:#fff;
+    background:rgba(255,255,255,.06);
+}
+
+.language-btn.active{
+    color:#fff;
+    background:linear-gradient(
+        135deg,
+        rgba(0,180,255,.32),
+        rgba(70,80,255,.32)
+    );
+    box-shadow:0 0 15px rgba(0,190,255,.12);
 }
 
 /* ORB */
 
 .orb-area{
-    position:relative;
     width:330px;
     height:330px;
+    position:relative;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -139,41 +195,51 @@ header{
 
 .orb-ring{
     position:absolute;
-    border:1px solid rgba(0,200,255,.25);
     border-radius:50%;
+    border:1px solid rgba(0,200,255,.22);
 }
 
 .ring1{
-    width:290px;
-    height:290px;
+    width:285px;
+    height:285px;
 }
 
 .ring2{
     width:330px;
     height:330px;
-    border-color:rgba(80,100,255,.12);
+    border-color:rgba(80,100,255,.13);
 }
 
 .ring3{
-    width:250px;
-    height:250px;
-    border-color:rgba(0,220,255,.15);
+    width:245px;
+    height:245px;
+    border-color:rgba(0,220,255,.14);
 }
 
 .orb{
     width:185px;
     height:185px;
     border-radius:50%;
-    background:
-        radial-gradient(circle at 40% 30%,#cfffff 0%,#38dfff 8%,#008dff 28%,#2444ff 55%,#07113b 75%);
-    box-shadow:
-        0 0 30px rgba(0,200,255,.7),
-        0 0 80px rgba(0,130,255,.4),
-        inset 0 0 35px rgba(255,255,255,.25);
+    position:relative;
     display:flex;
     align-items:center;
     justify-content:center;
-    position:relative;
+
+    background:
+    radial-gradient(
+        circle at 40% 28%,
+        #d7ffff 0%,
+        #4be7ff 8%,
+        #008fff 30%,
+        #283fff 55%,
+        #061039 76%
+    );
+
+    box-shadow:
+    0 0 30px rgba(0,200,255,.75),
+    0 0 85px rgba(0,130,255,.42),
+    inset 0 0 35px rgba(255,255,255,.22);
+
     transition:.3s;
 }
 
@@ -182,96 +248,111 @@ header{
     position:absolute;
     width:120px;
     height:45px;
+    top:23px;
+    left:31px;
     border-radius:50%;
     background:rgba(255,255,255,.18);
-    top:25px;
-    left:30px;
     filter:blur(8px);
 }
 
 .orb-icon{
-    font-size:55px;
+    position:relative;
     z-index:2;
-    filter:drop-shadow(0 0 12px white);
+    font-size:55px;
+    filter:drop-shadow(0 0 13px #fff);
 }
 
 .listening .orb{
-    animation:pulse 1.2s infinite;
+    animation:pulse 1.15s infinite;
 }
 
 .listening .ring1{
-    animation:ring 1.4s infinite;
+    animation:ring 1.3s infinite;
 }
 
 .listening .ring2{
-    animation:ring 1.8s infinite;
+    animation:ring 1.7s infinite;
 }
 
 @keyframes pulse{
+
     0%,100%{
         transform:scale(1);
-        box-shadow:
-        0 0 30px rgba(0,200,255,.7),
-        0 0 80px rgba(0,130,255,.4);
     }
+
     50%{
         transform:scale(1.08);
-        box-shadow:
-        0 0 55px rgba(0,220,255,1),
-        0 0 120px rgba(0,130,255,.65);
     }
+
 }
 
 @keyframes ring{
+
     0%{
-        transform:scale(.9);
+        transform:scale(.88);
         opacity:.8;
     }
+
     100%{
         transform:scale(1.25);
         opacity:0;
     }
+
 }
 
-/* TEXT */
+/* STATE */
 
 .state{
-    margin-top:15px;
-    text-align:center;
-    color:#7e8dae;
-    font-size:14px;
+    color:#7f8eaf;
     min-height:22px;
+    font-size:14px;
+    margin-top:5px;
 }
 
 .transcript{
-    width:min(700px,95%);
-    min-height:55px;
-    margin-top:14px;
+    width:min(720px,95%);
+    min-height:58px;
+    margin-top:12px;
     padding:15px 20px;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(255,255,255,.035);
-    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     text-align:center;
-    color:#dce7ff;
-    line-height:1.5;
-    backdrop-filter:blur(10px);
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.08);
+
+    color:#dbe7ff;
+    line-height:1.55;
+
+    backdrop-filter:blur(12px);
 }
 
-/* BUTTON */
+/* MIC */
 
 .mic-button{
-    margin-top:25px;
     width:76px;
     height:76px;
+    margin-top:22px;
     border:none;
     border-radius:50%;
     cursor:pointer;
-    color:white;
-    font-size:28px;
-    background:linear-gradient(145deg,#08bfff,#4055ff);
+    color:#fff;
+    font-size:27px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #08c7ff,
+        #4254ff
+    );
+
     box-shadow:
-        0 8px 30px rgba(0,170,255,.35),
-        inset 0 1px 2px rgba(255,255,255,.5);
+    0 8px 30px rgba(0,170,255,.35),
+    inset 0 1px 2px rgba(255,255,255,.5);
+
     transition:.2s;
 }
 
@@ -284,25 +365,32 @@ header{
 }
 
 .listening .mic-button{
-    background:linear-gradient(145deg,#ff3d71,#ff1744);
-    box-shadow:0 0 35px rgba(255,40,90,.65);
+    background:
+    linear-gradient(
+        145deg,
+        #ff3970,
+        #ff1744
+    );
+
+    box-shadow:
+    0 0 35px rgba(255,40,90,.65);
 }
 
 /* QUICK COMMANDS */
 
 .quick{
     width:min(850px,100%);
-    margin-top:30px;
+    margin-top:25px;
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
+    grid-template-columns:repeat(5,1fr);
+    gap:9px;
 }
 
 .quick button{
     border:1px solid rgba(255,255,255,.08);
     background:rgba(255,255,255,.035);
-    color:#cbd7f4;
-    padding:13px 8px;
+    color:#bdc9e5;
+    padding:12px 7px;
     border-radius:14px;
     cursor:pointer;
     transition:.2s;
@@ -316,27 +404,27 @@ header{
 
 .quick-icon{
     display:block;
-    font-size:20px;
-    margin-bottom:5px;
+    font-size:19px;
+    margin-bottom:4px;
 }
 
 /* HISTORY */
 
 .history{
-    width:min(700px,95%);
-    margin-top:25px;
+    width:min(720px,95%);
+    margin-top:20px;
 }
 
 .history-title{
-    color:#7180a3;
-    font-size:12px;
-    text-transform:uppercase;
+    color:#657596;
+    font-size:11px;
     letter-spacing:1px;
-    margin-bottom:8px;
+    text-transform:uppercase;
+    margin-bottom:7px;
 }
 
 .history-box{
-    max-height:130px;
+    max-height:110px;
     overflow:auto;
 }
 
@@ -344,30 +432,42 @@ header{
     display:flex;
     justify-content:space-between;
     gap:15px;
-    padding:8px 0;
+    padding:7px 0;
     border-bottom:1px solid rgba(255,255,255,.04);
-    font-size:13px;
-    color:#9daac8;
+    color:#96a5c5;
+    font-size:12px;
 }
 
-.history-item span:last-child{
-    color:#5e7097;
+.history-time{
+    color:#586a8f;
+    white-space:nowrap;
 }
-
-/* FOOTER */
 
 footer{
-    color:#53617f;
+    color:#4f5e7c;
     font-size:11px;
     text-align:center;
-    padding:15px;
+    padding:12px;
 }
 
 /* MOBILE */
 
-@media(max-width:650px){
+@media(max-width:700px){
+
     .app{
-        padding:15px;
+        padding:14px;
+    }
+
+    .logo-text{
+        font-size:17px;
+    }
+
+    .logo-sub{
+        font-size:9px;
+    }
+
+    .status{
+        font-size:11px;
     }
 
     .orb-area{
@@ -386,8 +486,8 @@ footer{
     }
 
     .ring3{
-        width:215px;
-        height:215px;
+        width:210px;
+        height:210px;
     }
 
     .orb{
@@ -399,14 +499,27 @@ footer{
         font-size:45px;
     }
 
+    .language-panel{
+        width:100%;
+        max-width:370px;
+        justify-content:center;
+    }
+
+    .language-btn{
+        padding:9px 10px;
+        font-size:12px;
+    }
+
     .quick{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .logo-text{
-        font-size:17px;
+    .quick button:last-child{
+        grid-column:1 / -1;
     }
+
 }
+
 </style>
 </head>
 
@@ -415,78 +528,208 @@ footer{
 <div class="app">
 
 <header>
+
     <div class="logo">
-        <div class="logo-icon">◉</div>
-        <div class="logo-text">My Voice Assistant</div>
+
+        <div class="logo-icon">
+            ◉
+        </div>
+
+        <div>
+            <div class="logo-text">
+                CBRND Alexa
+            </div>
+
+            <div class="logo-sub">
+                Multilingual Voice Assistant
+            </div>
+        </div>
+
     </div>
 
     <div class="status">
+
         <span class="status-dot"></span>
-        <span id="systemStatus">Ready</span>
+
+        <span id="systemStatus">
+            Ready
+        </span>
+
     </div>
+
 </header>
 
 
 <main class="main">
 
+
+    <!-- GREETING -->
+
     <div class="greeting">
-        <h1 id="greeting">Hello 👋</h1>
-        <p>Tap the microphone and talk to me</p>
+
+        <h1 id="greeting">
+            Hello 👋
+        </h1>
+
+        <p id="subtitle">
+            Tap the microphone and talk to CBRND Alexa
+        </p>
+
     </div>
 
 
-    <div class="orb-area" id="orbArea">
+    <!-- LANGUAGE -->
+
+    <div class="language-panel">
+
+        <button
+            class="language-btn active"
+            data-lang="auto"
+            onclick="setLanguage('auto')"
+        >
+            🌐 Auto
+        </button>
+
+        <button
+            class="language-btn"
+            data-lang="hi"
+            onclick="setLanguage('hi')"
+        >
+            🇮🇳 हिंदी
+        </button>
+
+        <button
+            class="language-btn"
+            data-lang="en"
+            onclick="setLanguage('en')"
+        >
+            🇬🇧 English
+        </button>
+
+        <button
+            class="language-btn"
+            data-lang="gu"
+            onclick="setLanguage('gu')"
+        >
+            🟠 ગુજરાતી
+        </button>
+
+    </div>
+
+
+    <!-- ALEXA ORB -->
+
+    <div
+        class="orb-area"
+        id="orbArea"
+    >
 
         <div class="orb-ring ring2"></div>
+
         <div class="orb-ring ring1"></div>
+
         <div class="orb-ring ring3"></div>
 
         <div class="orb">
-            <div class="orb-icon">🎙️</div>
+
+            <div class="orb-icon">
+                🎙️
+            </div>
+
         </div>
 
     </div>
 
 
-    <div class="state" id="state">
+    <div
+        class="state"
+        id="state"
+    >
         Ready to listen
     </div>
 
 
-    <div class="transcript" id="transcript">
-        Say something like: "What time is it?"
+    <div
+        class="transcript"
+        id="transcript"
+    >
+        पूछिए: "आपका नाम क्या है?"
     </div>
 
 
-    <button class="mic-button" id="micButton" title="Start listening">
+    <!-- MICROPHONE -->
+
+    <button
+        class="mic-button"
+        id="micButton"
+        title="Start Listening"
+    >
         🎤
     </button>
 
 
+    <!-- QUICK COMMANDS -->
+
     <div class="quick">
 
-        <button onclick="runCommand('What time is it')">
-            <span class="quick-icon">🕐</span>
-            Time
+        <button onclick="runCommand('What is your name')">
+
+            <span class="quick-icon">
+                🤖
+            </span>
+
+            Name
+
         </button>
+
+
+        <button onclick="runCommand('What time is it')">
+
+            <span class="quick-icon">
+                🕐
+            </span>
+
+            Time
+
+        </button>
+
 
         <button onclick="runCommand('What is today date')">
-            <span class="quick-icon">📅</span>
+
+            <span class="quick-icon">
+                📅
+            </span>
+
             Date
+
         </button>
+
 
         <button onclick="runCommand('Open Google')">
-            <span class="quick-icon">🔎</span>
+
+            <span class="quick-icon">
+                🔎
+            </span>
+
             Google
+
         </button>
 
+
         <button onclick="runCommand('Open YouTube')">
-            <span class="quick-icon">▶️</span>
+
+            <span class="quick-icon">
+                ▶️
+            </span>
+
             YouTube
+
         </button>
 
     </div>
 
+
+    <!-- HISTORY -->
 
     <div class="history">
 
@@ -494,11 +737,23 @@ footer{
             Recent Commands
         </div>
 
-        <div class="history-box" id="historyBox">
+        <div
+            class="history-box"
+            id="historyBox"
+        >
+
             <div class="history-item">
-                <span>Assistant ready</span>
-                <span>Now</span>
+
+                <span>
+                    CBRND Alexa ready
+                </span>
+
+                <span class="history-time">
+                    Now
+                </span>
+
             </div>
+
         </div>
 
     </div>
@@ -507,7 +762,7 @@ footer{
 
 
 <footer>
-    Voice Assistant • Browser Speech Technology
+    CBRND Alexa • Hindi • English • Gujarati
 </footer>
 
 </div>
@@ -515,58 +770,164 @@ footer{
 
 <script>
 
-/* =========================================================
-   MY VOICE ASSISTANT
-   Single-file GitHub Pages Version
-   ========================================================= */
+/* ==========================================================
+   CBRND ALEXA
+   MULTILINGUAL VOICE ASSISTANT
+   ========================================================== */
 
 
 /* ELEMENTS */
 
-const micButton = document.getElementById("micButton");
-const transcript = document.getElementById("transcript");
-const state = document.getElementById("state");
-const systemStatus = document.getElementById("systemStatus");
-const orbArea = document.getElementById("orbArea");
-const historyBox = document.getElementById("historyBox");
-const greeting = document.getElementById("greeting");
+const micButton =
+    document.getElementById("micButton");
+
+const transcript =
+    document.getElementById("transcript");
+
+const state =
+    document.getElementById("state");
+
+const systemStatus =
+    document.getElementById("systemStatus");
+
+const orbArea =
+    document.getElementById("orbArea");
+
+const historyBox =
+    document.getElementById("historyBox");
+
+const greeting =
+    document.getElementById("greeting");
+
+const subtitle =
+    document.getElementById("subtitle");
 
 
-/* =========================================================
+/* ==========================================================
+   LANGUAGE
+   ========================================================== */
+
+let selectedLanguage =
+    localStorage.getItem("cbrndLanguage") || "auto";
+
+
+function setLanguage(lang){
+
+    selectedLanguage = lang;
+
+    localStorage.setItem(
+        "cbrndLanguage",
+        lang
+    );
+
+    document
+        .querySelectorAll(".language-btn")
+        .forEach(button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.lang === lang
+            );
+
+        });
+
+
+    updateLanguageUI();
+
+}
+
+
+function updateLanguageUI(){
+
+    if(selectedLanguage === "hi"){
+
+        subtitle.textContent =
+            "माइक्रोफोन दबाकर CBRND Alexa से बात करें";
+
+        transcript.textContent =
+            "पूछिए: \"आपका नाम क्या है?\"";
+
+    }
+
+    else if(selectedLanguage === "gu"){
+
+        subtitle.textContent =
+            "માઇક્રોફોન દબાવીને CBRND Alexa સાથે વાત કરો";
+
+        transcript.textContent =
+            "પૂછો: \"તમારું નામ શું છે?\"";
+
+    }
+
+    else if(selectedLanguage === "en"){
+
+        subtitle.textContent =
+            "Tap the microphone and talk to CBRND Alexa";
+
+        transcript.textContent =
+            "Ask: \"What is your name?\"";
+
+    }
+
+    else{
+
+        subtitle.textContent =
+            "Hindi, English or Gujarati — just speak naturally";
+
+        transcript.textContent =
+            "पूछिए / Ask / પૂછો";
+
+    }
+
+}
+
+
+setLanguage(selectedLanguage);
+
+
+/* ==========================================================
    SPEECH RECOGNITION
-   ========================================================= */
+   ========================================================== */
 
 const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
 let recognition = null;
+
 let listening = false;
+
+let currentDetectedLanguage = "en";
+
 
 if(SpeechRecognition){
 
-    recognition = new SpeechRecognition();
+    recognition =
+        new SpeechRecognition();
 
     recognition.continuous = false;
 
     recognition.interimResults = true;
 
-    recognition.lang = "en-IN";
-
-    recognition.maxAlternatives = 3;
+    recognition.maxAlternatives = 5;
 
 
     recognition.onstart = function(){
 
         listening = true;
 
-        orbArea.classList.add("listening");
+        orbArea.classList.add(
+            "listening"
+        );
 
-        micButton.innerHTML = "⏹️";
+        micButton.innerHTML =
+            "⏹️";
 
-        state.textContent = "Listening...";
+        state.textContent =
+            getText("listening");
 
-        systemStatus.textContent = "Listening";
+        systemStatus.textContent =
+            getText("listening");
 
     };
 
@@ -575,61 +936,111 @@ if(SpeechRecognition){
 
         let text = "";
 
-        for(let i = event.resultIndex; i < event.results.length; i++){
+        for(
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+        ){
 
-            text += event.results[i][0].transcript;
+            text +=
+                event.results[i][0].transcript;
 
         }
 
         text = text.trim();
 
-        transcript.textContent = text;
+        transcript.textContent =
+            text;
 
-        if(event.results[event.results.length - 1].isFinal){
+
+        if(
+            event.results[
+                event.results.length - 1
+            ].isFinal
+        ){
+
+            const detected =
+                detectLanguage(text);
+
+            currentDetectedLanguage =
+                detected;
 
             addHistory(text);
 
-            processCommand(text);
-
-        }
-
-    };
-
-
-    recognition.onerror = function(event){
-
-        console.log("Speech error:",event.error);
-
-        stopListening();
-
-        if(event.error === "not-allowed"){
-
-            speak(
-                "Microphone permission is blocked. Please allow microphone access."
+            processCommand(
+                text,
+                detected
             );
 
-            state.textContent = "Microphone permission required";
-
-        }
-        else if(event.error === "no-speech"){
-
-            state.textContent = "I did not hear anything";
-
-        }
-        else{
-
-            state.textContent = "Please try again";
-
         }
 
     };
 
 
-    recognition.onend = function(){
+    recognition.onerror =
+        function(event){
 
-        stopListening();
+            console.log(
+                "Speech Error:",
+                event.error
+            );
 
-    };
+            stopListening();
+
+
+            if(
+                event.error ===
+                "not-allowed"
+            ){
+
+                state.textContent =
+                    getText(
+                        "micPermission"
+                    );
+
+                speak(
+                    getText(
+                        "micPermission"
+                    ),
+                    getLanguageCode(
+                        selectedLanguage === "auto"
+                        ? "en"
+                        : selectedLanguage
+                    )
+                );
+
+            }
+
+            else if(
+                event.error ===
+                "no-speech"
+            ){
+
+                state.textContent =
+                    getText(
+                        "noSpeech"
+                    );
+
+            }
+
+            else{
+
+                state.textContent =
+                    getText(
+                        "tryAgain"
+                    );
+
+            }
+
+        };
+
+
+    recognition.onend =
+        function(){
+
+            stopListening();
+
+        };
 
 }
 else{
@@ -642,35 +1053,20 @@ else{
 }
 
 
-/* =========================================================
-   MICROPHONE BUTTON
-   ========================================================= */
-
-micButton.addEventListener("click",function(){
-
-    if(!recognition) return;
-
-    if(listening){
-
-        recognition.stop();
-
-    }
-    else{
-
-        startListening();
-
-    }
-
-});
-
+/* ==========================================================
+   START LISTENING
+   ========================================================== */
 
 function startListening(){
 
-    if(!recognition) return;
+    if(!recognition)
+        return;
+
 
     try{
 
-        recognition.lang = getRecognitionLanguage();
+        recognition.lang =
+            getRecognitionLanguage();
 
         recognition.start();
 
@@ -688,149 +1084,692 @@ function stopListening(){
 
     listening = false;
 
-    orbArea.classList.remove("listening");
+    orbArea.classList.remove(
+        "listening"
+    );
 
-    micButton.innerHTML = "🎤";
+    micButton.innerHTML =
+        "🎤";
 
-    systemStatus.textContent = "Ready";
+    systemStatus.textContent =
+        getText("ready");
 
-    state.textContent = "Ready to listen";
+    state.textContent =
+        getText("ready");
 
 }
 
 
-/* =========================================================
-   LANGUAGE DETECTION
-   ========================================================= */
+micButton.addEventListener(
+    "click",
+    function(){
+
+        if(!recognition)
+            return;
+
+
+        if(listening){
+
+            recognition.stop();
+
+        }
+        else{
+
+            startListening();
+
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   RECOGNITION LANGUAGE
+   ========================================================== */
 
 function getRecognitionLanguage(){
 
-    const saved =
-        localStorage.getItem("assistantLanguage");
-
-    if(saved === "hi"){
+    if(selectedLanguage === "hi")
         return "hi-IN";
+
+    if(selectedLanguage === "gu")
+        return "gu-IN";
+
+    if(selectedLanguage === "en")
+        return "en-IN";
+
+
+    /*
+       AUTO MODE
+
+       We start with Hindi because Chrome's
+       speech engine can recognize Indian
+       English/Hindi reasonably well.
+
+       Multiple alternatives are requested.
+    */
+
+    return "hi-IN";
+
+}
+
+
+/* ==========================================================
+   LANGUAGE DETECTION
+   ========================================================== */
+
+function detectLanguage(text){
+
+    if(selectedLanguage !== "auto"){
+
+        return selectedLanguage;
+
     }
+
+
+    const gujaratiPattern =
+        /[\u0A80-\u0AFF]/;
+
+    const hindiPattern =
+        /[\u0900-\u097F]/;
+
+
+    if(
+        gujaratiPattern.test(text)
+    ){
+
+        return "gu";
+
+    }
+
+
+    if(
+        hindiPattern.test(text)
+    ){
+
+        return "hi";
+
+    }
+
+
+    /*
+       Roman Hindi / Gujarati detection
+    */
+
+    const t =
+        text.toLowerCase();
+
+
+    const gujaratiWords = [
+
+        "shu",
+        "chhe",
+        "cho",
+        "tamaru",
+        "maru",
+        "mane",
+        "tame",
+        "kem",
+        "kyare",
+        "kaho",
+        "naam",
+        "banavyu"
+
+    ];
+
+
+    const hindiWords = [
+
+        "kya",
+        "hai",
+        "aap",
+        "mujhe",
+        "mera",
+        "kaise",
+        "kaun",
+        "naam",
+        "batao",
+        "samay"
+
+    ];
+
+
+    let guScore = 0;
+
+    let hiScore = 0;
+
+
+    gujaratiWords.forEach(word => {
+
+        if(
+            t.includes(
+                word
+            )
+        ){
+
+            guScore++;
+
+        }
+
+    });
+
+
+    hindiWords.forEach(word => {
+
+        if(
+            t.includes(
+                word
+            )
+        ){
+
+            hiScore++;
+
+        }
+
+    });
+
+
+    if(guScore > hiScore && guScore > 0)
+        return "gu";
+
+
+    if(hiScore > 0)
+        return "hi";
+
+
+    return "en";
+
+}
+
+
+/* ==========================================================
+   TEXT TRANSLATIONS
+   ========================================================== */
+
+const texts = {
+
+    en:{
+
+        ready:
+            "Ready to listen",
+
+        listening:
+            "Listening...",
+
+        speaking:
+            "Speaking...",
+
+        noSpeech:
+            "I did not hear anything.",
+
+        tryAgain:
+            "Please try again.",
+
+        micPermission:
+            "Please allow microphone permission.",
+
+        hello:
+            "Hello! I am CBRND Alexa. How can I help you?",
+
+        name:
+            "I am CBRND Alexa. You can ask me any question. I was created by Mr. Raaj. Thank you, Mr. Raaj, for creating me.",
+
+        time:
+            "The current time is",
+
+        date:
+            "Today is",
+
+        day:
+            "Today is",
+
+        google:
+            "Opening Google.",
+
+        youtube:
+            "Opening YouTube.",
+
+        facebook:
+            "Opening Facebook.",
+
+        weather:
+            "I am opening the weather forecast for you.",
+
+        who:
+            "I am CBRND Alexa, your multilingual voice assistant.",
+
+        how:
+            "I am doing great and ready to help you.",
+
+        thanks:
+            "You're welcome.",
+
+        morning:
+            "Good morning. I hope you have a wonderful day.",
+
+        night:
+            "Good night. Have a peaceful sleep.",
+
+        search:
+            "Searching Google for",
+
+        unknown:
+            "I heard you. You can ask me questions about time, date, search, websites and more."
+
+    },
+
+
+    hi:{
+
+        ready:
+            "सुनने के लिए तैयार हूँ",
+
+        listening:
+            "मैं सुन रही हूँ...",
+
+        speaking:
+            "मैं जवाब दे रही हूँ...",
+
+        noSpeech:
+            "मुझे कुछ सुनाई नहीं दिया।",
+
+        tryAgain:
+            "कृपया फिर से पूछिए।",
+
+        micPermission:
+            "कृपया माइक्रोफोन की अनुमति दें।",
+
+        hello:
+            "नमस्ते! मैं CBRND Alexa हूँ। मैं आपकी कैसे मदद कर सकती हूँ?",
+
+        name:
+            "मैं CBRND Alexa हूँ। आप मुझसे कोई भी सवाल पूछ सकते हैं। मुझे Mr. Raaj ने बनाया है। मुझे बनाने के लिए धन्यवाद, Mr. Raaj।",
+
+        time:
+            "अभी का समय है",
+
+        date:
+            "आज है",
+
+        day:
+            "आज",
+
+        google:
+            "Google खोल रही हूँ।",
+
+        youtube:
+            "YouTube खोल रही हूँ।",
+
+        facebook:
+            "Facebook खोल रही हूँ।",
+
+        weather:
+            "मैं आपके लिए मौसम की जानकारी खोल रही हूँ।",
+
+        who:
+            "मैं CBRND Alexa हूँ, आपकी multilingual voice assistant।",
+
+        how:
+            "मैं बिल्कुल अच्छी हूँ और आपकी मदद करने के लिए तैयार हूँ।",
+
+        thanks:
+            "आपका स्वागत है।",
+
+        morning:
+            "सुप्रभात। आपका दिन शुभ हो।",
+
+        night:
+            "शुभ रात्रि। आपकी नींद अच्छी हो।",
+
+        search:
+            "Google पर खोज रही हूँ",
+
+        unknown:
+            "मैंने आपकी बात सुनी। आप मुझसे समय, तारीख, सर्च, वेबसाइट और कई अन्य सवाल पूछ सकते हैं।"
+
+    },
+
+
+    gu:{
+
+        ready:
+            "સાંભળવા માટે તૈયાર છું",
+
+        listening:
+            "હું સાંભળી રહી છું...",
+
+        speaking:
+            "હું જવાબ આપી રહી છું...",
+
+        noSpeech:
+            "મને કંઈ સંભળાયું નથી.",
+
+        tryAgain:
+            "કૃપા કરીને ફરીથી પૂછો.",
+
+        micPermission:
+            "કૃપા કરીને માઇક્રોફોનની પરવાનગી આપો.",
+
+        hello:
+            "નમસ્તે! હું CBRND Alexa છું. હું તમારી કેવી રીતે મદદ કરી શકું?",
+
+        name:
+            "હું CBRND Alexa છું. તમે મને કોઈપણ પ્રશ્ન પૂછી શકો છો. મને Mr. Raaj એ બનાવ્યો છે. મને બનાવવામાં મદદ કરવા બદલ આભાર, Mr. Raaj.",
+
+        time:
+            "હાલનો સમય છે",
+
+        date:
+            "આજની તારીખ છે",
+
+        day:
+            "આજે",
+
+        google:
+            "Google ખોલી રહી છું.",
+
+        youtube:
+            "YouTube ખોલી રહી છું.",
+
+        facebook:
+            "Facebook ખોલી રહી છું.",
+
+        weather:
+            "હું તમારા માટે હવામાનની માહિતી ખોલી રહી છું.",
+
+        who:
+            "હું CBRND Alexa છું, તમારી multilingual voice assistant.",
+
+        how:
+            "હું એકદમ સારી છું અને તમારી મદદ કરવા માટે તૈયાર છું.",
+
+        thanks:
+            "આપનું સ્વાગત છે.",
+
+        morning:
+            "સુપ્રભાત. તમારો દિવસ શુભ રહે.",
+
+        night:
+            "શુભ રાત્રિ. તમારી ઊંઘ સારી રહે.",
+
+        search:
+            "Google પર શોધી રહી છું",
+
+        unknown:
+            "મેં તમારી વાત સાંભળી. તમે મને સમય, તારીખ, સર્ચ, વેબસાઇટ અને બીજા ઘણા પ્રશ્નો પૂછી શકો છો."
+
+    }
+
+};
+
+
+/* ==========================================================
+   GET LANGUAGE TEXT
+   ========================================================== */
+
+function getText(key){
+
+    let lang =
+        currentDetectedLanguage;
+
+
+    if(
+        selectedLanguage !== "auto"
+    ){
+
+        lang =
+            selectedLanguage;
+
+    }
+
+
+    if(
+        !texts[lang]
+    ){
+
+        lang = "en";
+
+    }
+
+
+    return texts[lang][key];
+
+}
+
+
+/* ==========================================================
+   SPEECH SYNTHESIS
+   ========================================================== */
+
+let voices = [];
+
+
+function loadVoices(){
+
+    voices =
+        speechSynthesis.getVoices();
+
+}
+
+
+loadVoices();
+
+
+if(
+    "onvoiceschanged"
+    in speechSynthesis
+){
+
+    speechSynthesis.onvoiceschanged =
+        loadVoices;
+
+}
+
+
+/* ==========================================================
+   VOICE SELECTION
+   ========================================================== */
+
+function chooseVoice(language){
+
+    if(!voices.length)
+        return null;
+
+
+    const langMap = {
+
+        hi:"hi-IN",
+
+        gu:"gu-IN",
+
+        en:"en-IN"
+
+    };
+
+
+    const target =
+        langMap[language] ||
+        "en-IN";
+
+
+    /*
+       Exact language first
+    */
+
+    let voice =
+        voices.find(
+            v =>
+            v.lang.toLowerCase() ===
+            target.toLowerCase()
+        );
+
+
+    if(voice)
+        return voice;
+
+
+    /*
+       Same language
+    */
+
+    const prefix =
+        target
+        .split("-")[0]
+        .toLowerCase();
+
+
+    voice =
+        voices.find(
+            v =>
+            v.lang
+            .toLowerCase()
+            .startsWith(prefix)
+        );
+
+
+    if(voice)
+        return voice;
+
+
+    /*
+       English fallback
+    */
+
+    return voices.find(
+        v =>
+        v.lang
+        .toLowerCase()
+        .startsWith("en")
+    ) || voices[0];
+
+}
+
+
+/* ==========================================================
+   LANGUAGE CODE
+   ========================================================== */
+
+function getLanguageCode(lang){
+
+    if(lang === "hi")
+        return "hi-IN";
+
+    if(lang === "gu")
+        return "gu-IN";
 
     return "en-IN";
 
 }
 
 
-/* =========================================================
-   VOICE SYNTHESIS
-   ========================================================= */
+/* ==========================================================
+   SPEAK
+   ========================================================== */
 
-let voices = [];
+function speak(
+    text,
+    language="en-IN"
+){
 
-function loadVoices(){
-
-    voices = speechSynthesis.getVoices();
-
-}
-
-loadVoices();
-
-if("onvoiceschanged" in speechSynthesis){
-
-    speechSynthesis.onvoiceschanged = loadVoices;
-
-}
-
-
-function chooseVoice(){
-
-    if(!voices.length){
-        return null;
-    }
-
-    const preferred = [
-
-        "Google UK English Female",
-        "Google US English",
-        "Microsoft Zira",
-        "Microsoft Jenny",
-        "Samantha",
-        "Karen"
-
-    ];
-
-    for(const name of preferred){
-
-        const found = voices.find(v =>
-            v.name.toLowerCase().includes(name.toLowerCase())
-        );
-
-        if(found) return found;
-
-    }
-
-    return voices.find(v =>
-        v.lang === "en-IN"
-    ) || voices.find(v =>
-        v.lang.startsWith("en")
-    ) || voices[0];
-
-}
-
-
-function speak(text, language="en-US"){
-
-    if(!("speechSynthesis" in window)){
+    if(
+        !("speechSynthesis" in window)
+    ){
 
         return;
 
     }
 
+
     speechSynthesis.cancel();
 
+
     const utterance =
-        new SpeechSynthesisUtterance(text);
+        new SpeechSynthesisUtterance(
+            text
+        );
 
-    utterance.text = text;
 
-    utterance.lang = language;
+    utterance.text =
+        text;
 
-    utterance.rate = 0.92;
 
-    utterance.pitch = 1.0;
+    utterance.lang =
+        language;
 
-    utterance.volume = 1.0;
 
-    const voice = chooseVoice();
+    utterance.rate =
+        0.90;
+
+
+    utterance.pitch =
+        1.0;
+
+
+    utterance.volume =
+        1.0;
+
+
+    const langShort =
+        language.startsWith("hi")
+        ? "hi"
+        : language.startsWith("gu")
+        ? "gu"
+        : "en";
+
+
+    const voice =
+        chooseVoice(
+            langShort
+        );
+
 
     if(voice){
 
-        utterance.voice = voice;
+        utterance.voice =
+            voice;
 
     }
 
-    utterance.onstart = function(){
 
-        state.textContent = "Speaking...";
+    utterance.onstart =
+        function(){
 
-        systemStatus.textContent = "Speaking";
+            state.textContent =
+                getText("speaking");
 
-    };
+            systemStatus.textContent =
+                "Speaking";
 
-    utterance.onend = function(){
+        };
 
-        state.textContent = "Ready to listen";
 
-        systemStatus.textContent = "Ready";
+    utterance.onend =
+        function(){
 
-    };
+            state.textContent =
+                getText("ready");
 
-    speechSynthesis.speak(utterance);
+            systemStatus.textContent =
+                "Ready";
+
+        };
+
+
+    speechSynthesis.speak(
+        utterance
+    );
 
 }
 
 
-/* =========================================================
+/* ==========================================================
    COMMAND PROCESSOR
-   ========================================================= */
+   ========================================================== */
 
-function processCommand(rawText){
+function processCommand(
+    rawText,
+    language
+){
 
     const text =
         rawText
@@ -838,17 +1777,29 @@ function processCommand(rawText){
         .trim();
 
 
+    currentDetectedLanguage =
+        language;
+
+
+    const responseLanguage =
+        getLanguageCode(
+            language
+        );
+
+
     /* STOP */
 
     if(
         text.includes("stop") ||
-        text.includes("shut up") ||
-        text.includes("quiet")
+        text.includes("रुको") ||
+        text.includes("બંધ") ||
+        text.includes("shut up")
     ){
 
         speechSynthesis.cancel();
 
-        state.textContent = "Stopped";
+        state.textContent =
+            getText("ready");
 
         return;
 
@@ -858,19 +1809,78 @@ function processCommand(rawText){
     /* HELLO */
 
     if(
-        text === "hello" ||
-        text.includes("hello assistant") ||
-        text.includes("hey assistant") ||
-        text.includes("hello alexa") ||
-        text.includes("hey alexa")
+        text.includes("hello") ||
+        text.includes("hey") ||
+        text.includes("नमस्ते") ||
+        text.includes("हेलो") ||
+        text.includes("નમસ્તે") ||
+        text.includes("હેલો")
     ){
 
         const answer =
-            "Hello! I am ready. How can I help you?";
+            getText("hello");
 
-        transcript.textContent = answer;
+        transcript.textContent =
+            answer;
 
-        speak(answer);
+        speak(
+            answer,
+            responseLanguage
+        );
+
+        return;
+
+    }
+
+
+    /* ======================================================
+       NAME / IDENTITY
+       ====================================================== */
+
+    if(
+
+        text.includes("who are you") ||
+
+        text.includes("what are you") ||
+
+        text.includes("your name") ||
+
+        text.includes("what is your name") ||
+
+        text.includes("what's your name") ||
+
+        text.includes("who is this") ||
+
+        text.includes("आप कौन हो") ||
+
+        text.includes("आपका नाम") ||
+
+        text.includes("तुम कौन हो") ||
+
+        text.includes("तुम्हारा नाम") ||
+
+        text.includes("नाम क्या है") ||
+
+        text.includes("તમારું નામ") ||
+
+        text.includes("તારું નામ") ||
+
+        text.includes("તમે કોણ છો") ||
+
+        text.includes("નામ શું છે")
+
+    ){
+
+        const answer =
+            getText("name");
+
+        transcript.textContent =
+            answer;
+
+        speak(
+            answer,
+            responseLanguage
+        );
 
         return;
 
@@ -880,28 +1890,55 @@ function processCommand(rawText){
     /* TIME */
 
     if(
+
         text.includes("what time") ||
+
         text.includes("time is it") ||
-        text === "time"
+
+        text.includes("time") ||
+
+        text.includes("समय") ||
+
+        text.includes("कितने बजे") ||
+
+        text.includes("સમય") ||
+
+        text.includes("કેટલા વાગ્યા")
+
     ){
 
-        const now = new Date();
+        const now =
+            new Date();
+
 
         const time =
             now.toLocaleTimeString(
-                "en-IN",
+                language === "hi"
+                ? "hi-IN"
+                : language === "gu"
+                ? "gu-IN"
+                : "en-IN",
                 {
                     hour:"numeric",
                     minute:"2-digit"
                 }
             );
 
+
         const answer =
-            "The current time is " + time;
+            getText("time") +
+            " " +
+            time;
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
 
         return;
 
@@ -911,17 +1948,33 @@ function processCommand(rawText){
     /* DATE */
 
     if(
+
         text.includes("today date") ||
+
         text.includes("what is the date") ||
+
         text.includes("today's date") ||
-        text === "date"
+
+        text.includes("date") ||
+
+        text.includes("तारीख") ||
+
+        text.includes("आज की तारीख") ||
+
+        text.includes("તારીખ") ||
+
+        text.includes("આજની તારીખ")
+
     ){
 
-        const now = new Date();
-
         const date =
-            now.toLocaleDateString(
-                "en-IN",
+            new Date()
+            .toLocaleDateString(
+                language === "hi"
+                ? "hi-IN"
+                : language === "gu"
+                ? "gu-IN"
+                : "en-IN",
                 {
                     weekday:"long",
                     day:"numeric",
@@ -930,12 +1983,21 @@ function processCommand(rawText){
                 }
             );
 
+
         const answer =
-            "Today is " + date;
+            getText("date") +
+            " " +
+            date;
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
 
         return;
 
@@ -945,24 +2007,49 @@ function processCommand(rawText){
     /* DAY */
 
     if(
+
         text.includes("what day") ||
-        text.includes("which day")
+
+        text.includes("which day") ||
+
+        text.includes("कौन सा दिन") ||
+
+        text.includes("आज कौन सा दिन") ||
+
+        text.includes("કયો દિવસ") ||
+
+        text.includes("આજે કયો દિવસ")
+
     ){
 
         const day =
-            new Date().toLocaleDateString(
-                "en-IN",
+            new Date()
+            .toLocaleDateString(
+                language === "hi"
+                ? "hi-IN"
+                : language === "gu"
+                ? "gu-IN"
+                : "en-IN",
                 {
                     weekday:"long"
                 }
             );
 
+
         const answer =
-            "Today is " + day;
+            getText("day") +
+            " " +
+            day;
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
 
         return;
 
@@ -972,21 +2059,49 @@ function processCommand(rawText){
     /* GOOGLE */
 
     if(
+
         text.includes("open google") ||
+
         text.includes("google kholo") ||
-        text.includes("google")
+
+        text.includes("google खोलो") ||
+
+        text.includes("गूगल खोलो") ||
+
+        text.includes("गूगल") ||
+
+        text.includes("google kholo") ||
+
+        text.includes("google ખોલો")
+
     ){
 
-        speak("Opening Google.");
+        const answer =
+            getText("google");
 
-        setTimeout(function(){
 
-            window.open(
-                "https://www.google.com",
-                "_blank"
-            );
+        transcript.textContent =
+            answer;
 
-        },700);
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.google.com",
+                    "_blank"
+                );
+
+            },
+            800
+        );
+
 
         return;
 
@@ -996,21 +2111,45 @@ function processCommand(rawText){
     /* YOUTUBE */
 
     if(
+
         text.includes("open youtube") ||
+
+        text.includes("youtube") ||
+
+        text.includes("यूट्यूब") ||
+
         text.includes("youtube kholo") ||
-        text.includes("youtube")
+
+        text.includes("યુટ્યુબ")
+
     ){
 
-        speak("Opening YouTube.");
+        const answer =
+            getText("youtube");
 
-        setTimeout(function(){
 
-            window.open(
-                "https://www.youtube.com",
-                "_blank"
-            );
+        transcript.textContent =
+            answer;
 
-        },700);
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.youtube.com",
+                    "_blank"
+                );
+
+            },
+            800
+        );
+
 
         return;
 
@@ -1023,56 +2162,34 @@ function processCommand(rawText){
         text.includes("open facebook")
     ){
 
-        speak("Opening Facebook.");
-
-        setTimeout(function(){
-
-            window.open(
-                "https://www.facebook.com",
-                "_blank"
-            );
-
-        },700);
-
-        return;
-
-    }
+        const answer =
+            getText("facebook");
 
 
-    /* SEARCH */
+        transcript.textContent =
+            answer;
 
-    if(
-        text.startsWith("search for ") ||
-        text.startsWith("google search ")
-    ){
 
-        let query = text
-            .replace("search for ","")
-            .replace("google search ","")
-            .trim();
+        speak(
+            answer,
+            responseLanguage
+        );
 
-        if(query){
 
-            const answer =
-                "Searching Google for " + query;
-
-            transcript.textContent = answer;
-
-            speak(answer);
-
-            setTimeout(function(){
+        setTimeout(
+            function(){
 
                 window.open(
-                    "https://www.google.com/search?q=" +
-                    encodeURIComponent(query),
+                    "https://www.facebook.com",
                     "_blank"
                 );
 
-            },700);
+            },
+            800
+        );
 
-            return;
 
-        }
+        return;
 
     }
 
@@ -1080,65 +2197,113 @@ function processCommand(rawText){
     /* WEATHER */
 
     if(
-        text.includes("weather")
+
+        text.includes("weather") ||
+
+        text.includes("मौसम") ||
+
+        text.includes("હવામાન")
+
     ){
 
         const answer =
-            "I can open the weather forecast for you.";
+            getText("weather");
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
 
-        setTimeout(function(){
 
-            window.open(
-                "https://www.google.com/search?q=weather",
-                "_blank"
-            );
+        speak(
+            answer,
+            responseLanguage
+        );
 
-        },900);
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.google.com/search?q=weather",
+                    "_blank"
+                );
+
+            },
+            900
+        );
+
 
         return;
 
     }
 
 
-   /* WHO ARE YOU / NAME */
-
-if(
-    text.includes("who are you") ||
-    text.includes("what are you") ||
-    text.includes("your name") ||
-    text.includes("what is your name") ||
-    text.includes("what's your name") ||
-    text.includes("name")
-){
-
-    const answer =
-        "I am CBRND Alexa. You can ask me any question. " +
-        "I was created by Mr. Raaj. " +
-        "Thank you, Mr. Raaj, for creating me.";
-
-    transcript.textContent = answer;
-
-    speak(answer);
-
-    return;
-
-}
-    /* HOW ARE YOU */
+    /* WHO */
 
     if(
-        text.includes("how are you")
+
+        text.includes("who made you") ||
+
+        text.includes("who created you") ||
+
+        text.includes("किसने बनाया") ||
+
+        text.includes("आपको किसने बनाया") ||
+
+        text.includes("કોણે બનાવ્યા") ||
+
+        text.includes("તમને કોણે બનાવ્યા")
+
     ){
 
         const answer =
-            "I am doing great and ready to help you.";
+            getText("name");
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
+
+        return;
+
+    }
+
+
+    /* HOW ARE YOU */
+
+    if(
+
+        text.includes("how are you") ||
+
+        text.includes("कैसी हो") ||
+
+        text.includes("कैसे हो") ||
+
+        text.includes("તમે કેમ છો") ||
+
+        text.includes("કેમ છો")
+
+    ){
+
+        const answer =
+            getText("how");
+
+
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
 
         return;
 
@@ -1148,16 +2313,32 @@ if(
     /* THANK YOU */
 
     if(
+
         text.includes("thank you") ||
-        text.includes("thanks")
+
+        text.includes("thanks") ||
+
+        text.includes("धन्यवाद") ||
+
+        text.includes("शुक्रिया") ||
+
+        text.includes("આભાર")
+
     ){
 
         const answer =
-            "You're welcome.";
+            getText("thanks");
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
 
         return;
 
@@ -1167,15 +2348,28 @@ if(
     /* GOOD MORNING */
 
     if(
-        text.includes("good morning")
+
+        text.includes("good morning") ||
+
+        text.includes("सुप्रभात") ||
+
+        text.includes("શુભ સવાર")
+
     ){
 
         const answer =
-            "Good morning. I hope you have a wonderful day.";
+            getText("morning");
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
 
         return;
 
@@ -1185,122 +2379,247 @@ if(
     /* GOOD NIGHT */
 
     if(
-        text.includes("good night")
+
+        text.includes("good night") ||
+
+        text.includes("शुभ रात्रि") ||
+
+        text.includes("શુભ રાત્રિ")
+
     ){
 
         const answer =
-            "Good night. Have a peaceful sleep.";
+            getText("night");
 
-        transcript.textContent = answer;
 
-        speak(answer);
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
 
         return;
 
     }
 
 
-    /* CALCULATOR */
+    /* SEARCH */
+
+    let searchQuery = "";
+
 
     if(
-        text.includes("calculate")
+        text.startsWith("search for ")
     ){
 
-        const expression =
-            text
-            .replace("calculate","")
-            .trim();
-
-        try{
-
-            const safe =
-                expression.replace(
-                    /[^0-9+\-*/().% ]/g,
-                    ""
-                );
-
-            if(safe){
-
-                const result =
-                    Function(
-                        '"use strict"; return (' +
-                        safe +
-                        ')'
-                    )();
-
-                const answer =
-                    "The answer is " + result;
-
-                transcript.textContent = answer;
-
-                speak(answer);
-
-                return;
-
-            }
-
-        }
-        catch(e){}
+        searchQuery =
+            text.replace(
+                "search for ",
+                ""
+            ).trim();
 
     }
 
 
-    /* UNKNOWN COMMAND */
+    if(
+        text.startsWith("google search ")
+    ){
+
+        searchQuery =
+            text.replace(
+                "google search ",
+                ""
+            ).trim();
+
+    }
+
+
+    if(
+        text.startsWith("सर्च ")
+    ){
+
+        searchQuery =
+            text.replace(
+                "सर्च ",
+                ""
+            ).trim();
+
+    }
+
+
+    if(
+        text.startsWith("શોધો ")
+    ){
+
+        searchQuery =
+            text.replace(
+                "શોધો ",
+                ""
+            ).trim();
+
+    }
+
+
+    if(searchQuery){
+
+        const answer =
+            getText("search") +
+            " " +
+            searchQuery;
+
+
+        transcript.textContent =
+            answer;
+
+
+        speak(
+            answer,
+            responseLanguage
+        );
+
+
+        setTimeout(
+            function(){
+
+                window.open(
+                    "https://www.google.com/search?q=" +
+                    encodeURIComponent(
+                        searchQuery
+                    ),
+                    "_blank"
+                );
+
+            },
+            800
+        );
+
+
+        return;
+
+    }
+
+
+    /* UNKNOWN */
 
     const answer =
-        "I heard you say: " +
-        rawText +
-        ". I can currently handle basic voice commands, time, date, websites and Google searches.";
+        getText("unknown");
 
-    transcript.textContent = answer;
 
-    speak(answer);
+    transcript.textContent =
+        answer;
+
+
+    speak(
+        answer,
+        responseLanguage
+    );
 
 }
 
 
-/* =========================================================
-   QUICK BUTTON COMMAND
-   ========================================================= */
+/* ==========================================================
+   QUICK COMMAND
+   ========================================================== */
 
 function runCommand(command){
 
-    transcript.textContent = command;
+    let language =
+        selectedLanguage === "auto"
+        ? "en"
+        : selectedLanguage;
+
+
+    /*
+       If the selected language is Hindi,
+       use Hindi identity command.
+    */
+
+    if(
+        command.includes(
+            "What is your name"
+        )
+    ){
+
+        if(language === "hi"){
+
+            command =
+                "आपका नाम क्या है";
+
+        }
+        else if(language === "gu"){
+
+            command =
+                "તમારું નામ શું છે";
+
+        }
+
+    }
+
 
     addHistory(command);
 
-    processCommand(command);
+    transcript.textContent =
+        command;
+
+
+    processCommand(
+        command,
+        language
+    );
 
 }
 
 
-/* =========================================================
+/* ==========================================================
    HISTORY
-   ========================================================= */
+   ========================================================== */
 
 function addHistory(command){
 
     const item =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    item.className = "history-item";
+
+    item.className =
+        "history-item";
+
 
     const text =
-        document.createElement("span");
+        document.createElement(
+            "span"
+        );
 
-    text.textContent = command;
+
+    text.textContent =
+        command;
+
 
     const time =
-        document.createElement("span");
+        document.createElement(
+            "span"
+        );
+
+
+    time.className =
+        "history-time";
+
 
     time.textContent =
-        new Date().toLocaleTimeString(
+        new Date()
+        .toLocaleTimeString(
             "en-IN",
             {
                 hour:"numeric",
                 minute:"2-digit"
             }
         );
+
 
     item.appendChild(text);
 
@@ -1309,7 +2628,9 @@ function addHistory(command){
     historyBox.prepend(item);
 
 
-    while(historyBox.children.length > 8){
+    while(
+        historyBox.children.length > 8
+    ){
 
         historyBox.removeChild(
             historyBox.lastChild
@@ -1320,14 +2641,15 @@ function addHistory(command){
 }
 
 
-/* =========================================================
+/* ==========================================================
    GREETING
-   ========================================================= */
+   ========================================================== */
 
 function updateGreeting(){
 
     const hour =
         new Date().getHours();
+
 
     if(hour < 12){
 
@@ -1335,12 +2657,14 @@ function updateGreeting(){
             "Good Morning ☀️";
 
     }
+
     else if(hour < 18){
 
         greeting.textContent =
             "Good Afternoon 🌤️";
 
     }
+
     else{
 
         greeting.textContent =
@@ -1350,25 +2674,32 @@ function updateGreeting(){
 
 }
 
+
 updateGreeting();
 
 
-/* =========================================================
-   KEYBOARD SHORTCUT
-   Space = microphone
-   ========================================================= */
+/* ==========================================================
+   KEYBOARD SPACE = MIC
+   ========================================================== */
 
 document.addEventListener(
     "keydown",
     function(event){
 
         if(
+
             event.code === "Space" &&
-            event.target.tagName !== "INPUT" &&
-            event.target.tagName !== "TEXTAREA"
+
+            event.target.tagName !==
+            "INPUT" &&
+
+            event.target.tagName !==
+            "TEXTAREA"
+
         ){
 
             event.preventDefault();
+
 
             if(listening){
 
@@ -1387,45 +2718,9 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   SIMPLE WAKE WORD
-   ========================================================= */
-
-/*
-   Browser continuous listening is intentionally NOT enabled
-   by default because it can consume microphone resources
-   and behave differently between browsers.
-
-   User can say "Hello Assistant" after pressing the mic.
-*/
-
-
-/* =========================================================
-   FIRST VISIT MESSAGE
-   ========================================================= */
-
-setTimeout(function(){
-
-    if(!localStorage.getItem("assistantWelcomed")){
-
-        const message =
-            "Hello! Tap the microphone and ask me something.";
-
-        transcript.textContent = message;
-
-        localStorage.setItem(
-            "assistantWelcomed",
-            "yes"
-        );
-
-    }
-
-},500);
-
-
-/* =========================================================
-   PREVENT SPEECH WHEN PAGE IS HIDDEN
-   ========================================================= */
+/* ==========================================================
+   PAGE VISIBILITY
+   ========================================================== */
 
 document.addEventListener(
     "visibilitychange",
@@ -1435,10 +2730,16 @@ document.addEventListener(
 
             speechSynthesis.cancel();
 
-            if(listening && recognition){
+
+            if(
+                listening &&
+                recognition
+            ){
 
                 try{
+
                     recognition.stop();
+
                 }
                 catch(e){}
 
@@ -1447,6 +2748,20 @@ document.addEventListener(
         }
 
     }
+);
+
+
+/* ==========================================================
+   FIRST LOAD
+   ========================================================== */
+
+setTimeout(
+    function(){
+
+        updateLanguageUI();
+
+    },
+    300
 );
 
 </script>
