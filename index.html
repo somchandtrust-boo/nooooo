@@ -1104,25 +1104,29 @@ function processCommand(rawText){
     }
 
 
-    /* WHO ARE YOU */
+   /* WHO ARE YOU / NAME */
 
-    if(
-        text.includes("who are you") ||
-        text.includes("what are you")
-    ){
+if(
+    text.includes("who are you") ||
+    text.includes("what are you") ||
+    text.includes("your name") ||
+    text.includes("what is your name") ||
+    text.includes("what's your name") ||
+    text.includes("name")
+){
 
-        const answer =
-            "I am your personal browser voice assistant.";
+    const answer =
+        "I am CBRND Alexa. You can ask me any question. " +
+        "I was created by Mr. Raaj. " +
+        "Thank you, Mr. Raaj, for creating me.";
 
-        transcript.textContent = answer;
+    transcript.textContent = answer;
 
-        speak(answer);
+    speak(answer);
 
-        return;
+    return;
 
-    }
-
-
+}
     /* HOW ARE YOU */
 
     if(
