@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050814">
+<meta name="description" content="Simple Alexa Style Voice Assistant">
+<title>My Voice Assistant</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% 35%,#17245a 0%,#080d20 38%,#03050c 75%);
+    color:white;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    left:50%;
+    top:40%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(0,180,255,.16),transparent 65%);
+    pointer-events:none;
+}
+
+.app{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:20px;
+}
+
+/* HEADER */
+
+header{
+    width:100%;
+    max-width:1000px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 5px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#00d9ff,#536dfe);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 25px rgba(0,210,255,.55);
+    font-size:22px;
+}
+
+.logo-text{
+    font-size:20px;
+    font-weight:bold;
+    letter-spacing:.5px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#9aa7c7;
+    font-size:13px;
+}
+
+.status-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#00e676;
+    box-shadow:0 0 12px #00e676;
+}
+
+/* MAIN */
+
+.main{
+    width:100%;
+    max-width:900px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:1;
+    justify-content:center;
+    padding:20px 0 30px;
+}
+
+.greeting{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.greeting h1{
+    font-size:clamp(28px,5vw,48px);
+    margin-bottom:10px;
+    background:linear-gradient(90deg,#fff,#7ddcff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.greeting p{
+    color:#8d9bbd;
+    font-size:15px;
+}
+
+/* ORB */
+
+.orb-area{
+    position:relative;
+    width:330px;
+    height:330px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.orb-ring{
+    position:absolute;
+    border:1px solid rgba(0,200,255,.25);
+    border-radius:50%;
+}
+
+.ring1{
+    width:290px;
+    height:290px;
+}
+
+.ring2{
+    width:330px;
+    height:330px;
+    border-color:rgba(80,100,255,.12);
+}
+
+.ring3{
+    width:250px;
+    height:250px;
+    border-color:rgba(0,220,255,.15);
+}
+
+.orb{
+    width:185px;
+    height:185px;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 40% 30%,#cfffff 0%,#38dfff 8%,#008dff 28%,#2444ff 55%,#07113b 75%);
+    box-shadow:
+        0 0 30px rgba(0,200,255,.7),
+        0 0 80px rgba(0,130,255,.4),
+        inset 0 0 35px rgba(255,255,255,.25);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    transition:.3s;
+}
+
+.orb::before{
+    content:"";
+    position:absolute;
+    width:120px;
+    height:45px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    top:25px;
+    left:30px;
+    filter:blur(8px);
+}
+
+.orb-icon{
+    font-size:55px;
+    z-index:2;
+    filter:drop-shadow(0 0 12px white);
+}
+
+.listening .orb{
+    animation:pulse 1.2s infinite;
+}
+
+.listening .ring1{
+    animation:ring 1.4s infinite;
+}
+
+.listening .ring2{
+    animation:ring 1.8s infinite;
+}
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+        box-shadow:
+        0 0 30px rgba(0,200,255,.7),
+        0 0 80px rgba(0,130,255,.4);
+    }
+    50%{
+        transform:scale(1.08);
+        box-shadow:
+        0 0 55px rgba(0,220,255,1),
+        0 0 120px rgba(0,130,255,.65);
+    }
+}
+
+@keyframes ring{
+    0%{
+        transform:scale(.9);
+        opacity:.8;
+    }
+    100%{
+        transform:scale(1.25);
+        opacity:0;
+    }
+}
+
+/* TEXT */
+
+.state{
+    margin-top:15px;
+    text-align:center;
+    color:#7e8dae;
+    font-size:14px;
+    min-height:22px;
+}
+
+.transcript{
+    width:min(700px,95%);
+    min-height:55px;
+    margin-top:14px;
+    padding:15px 20px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    border-radius:18px;
+    text-align:center;
+    color:#dce7ff;
+    line-height:1.5;
+    backdrop-filter:blur(10px);
+}
+
+/* BUTTON */
+
+.mic-button{
+    margin-top:25px;
+    width:76px;
+    height:76px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    color:white;
+    font-size:28px;
+    background:linear-gradient(145deg,#08bfff,#4055ff);
+    box-shadow:
+        0 8px 30px rgba(0,170,255,.35),
+        inset 0 1px 2px rgba(255,255,255,.5);
+    transition:.2s;
+}
+
+.mic-button:hover{
+    transform:scale(1.06);
+}
+
+.mic-button:active{
+    transform:scale(.94);
+}
+
+.listening .mic-button{
+    background:linear-gradient(145deg,#ff3d71,#ff1744);
+    box-shadow:0 0 35px rgba(255,40,90,.65);
+}
+
+/* QUICK COMMANDS */
+
+.quick{
+    width:min(850px,100%);
+    margin-top:30px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.quick button{
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    color:#cbd7f4;
+    padding:13px 8px;
+    border-radius:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.quick button:hover{
+    background:rgba(0,180,255,.1);
+    border-color:rgba(0,200,255,.3);
+    transform:translateY(-2px);
+}
+
+.quick-icon{
+    display:block;
+    font-size:20px;
+    margin-bottom:5px;
+}
+
+/* HISTORY */
+
+.history{
+    width:min(700px,95%);
+    margin-top:25px;
+}
+
+.history-title{
+    color:#7180a3;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:8px;
+}
+
+.history-box{
+    max-height:130px;
+    overflow:auto;
+}
+
+.history-item{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:8px 0;
+    border-bottom:1px solid rgba(255,255,255,.04);
+    font-size:13px;
+    color:#9daac8;
+}
+
+.history-item span:last-child{
+    color:#5e7097;
+}
+
+/* FOOTER */
+
+footer{
+    color:#53617f;
+    font-size:11px;
+    text-align:center;
+    padding:15px;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+    .app{
+        padding:15px;
+    }
+
+    .orb-area{
+        width:280px;
+        height:280px;
+    }
+
+    .ring1{
+        width:245px;
+        height:245px;
+    }
+
+    .ring2{
+        width:280px;
+        height:280px;
+    }
+
+    .ring3{
+        width:215px;
+        height:215px;
+    }
+
+    .orb{
+        width:155px;
+        height:155px;
+    }
+
+    .orb-icon{
+        font-size:45px;
+    }
+
+    .quick{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .logo-text{
+        font-size:17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <div class="logo">
+        <div class="logo-icon">◉</div>
+        <div class="logo-text">My Voice Assistant</div>
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        <span id="systemStatus">Ready</span>
+    </div>
+</header>
+
+
+<main class="main">
+
+    <div class="greeting">
+        <h1 id="greeting">Hello 👋</h1>
+        <p>Tap the microphone and talk to me</p>
+    </div>
+
+
+    <div class="orb-area" id="orbArea">
+
+        <div class="orb-ring ring2"></div>
+        <div class="orb-ring ring1"></div>
+        <div class="orb-ring ring3"></div>
+
+        <div class="orb">
+            <div class="orb-icon">🎙️</div>
+        </div>
+
+    </div>
+
+
+    <div class="state" id="state">
+        Ready to listen
+    </div>
+
+
+    <div class="transcript" id="transcript">
+        Say something like: "What time is it?"
+    </div>
+
+
+    <button class="mic-button" id="micButton" title="Start listening">
+        🎤
+    </button>
+
+
+    <div class="quick">
+
+        <button onclick="runCommand('What time is it')">
+            <span class="quick-icon">🕐</span>
+            Time
+        </button>
+
+        <button onclick="runCommand('What is today date')">
+            <span class="quick-icon">📅</span>
+            Date
+        </button>
+
+        <button onclick="runCommand('Open Google')">
+            <span class="quick-icon">🔎</span>
+            Google
+        </button>
+
+        <button onclick="runCommand('Open YouTube')">
+            <span class="quick-icon">▶️</span>
+            YouTube
+        </button>
+
+    </div>
+
+
+    <div class="history">
+
+        <div class="history-title">
+            Recent Commands
+        </div>
+
+        <div class="history-box" id="historyBox">
+            <div class="history-item">
+                <span>Assistant ready</span>
+                <span>Now</span>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    Voice Assistant • Browser Speech Technology
+</footer>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   MY VOICE ASSISTANT
+   Single-file GitHub Pages Version
+   ========================================================= */
+
+
+/* ELEMENTS */
+
+const micButton = document.getElementById("micButton");
+const transcript = document.getElementById("transcript");
+const state = document.getElementById("state");
+const systemStatus = document.getElementById("systemStatus");
+const orbArea = document.getElementById("orbArea");
+const historyBox = document.getElementById("historyBox");
+const greeting = document.getElementById("greeting");
+
+
+/* =========================================================
+   SPEECH RECOGNITION
+   ========================================================= */
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition = null;
+let listening = false;
+
+if(SpeechRecognition){
+
+    recognition = new SpeechRecognition();
+
+    recognition.continuous = false;
+
+    recognition.interimResults = true;
+
+    recognition.lang = "en-IN";
+
+    recognition.maxAlternatives = 3;
+
+
+    recognition.onstart = function(){
+
+        listening = true;
+
+        orbArea.classList.add("listening");
+
+        micButton.innerHTML = "⏹️";
+
+        state.textContent = "Listening...";
+
+        systemStatus.textContent = "Listening";
+
+    };
+
+
+    recognition.onresult = function(event){
+
+        let text = "";
+
+        for(let i = event.resultIndex; i < event.results.length; i++){
+
+            text += event.results[i][0].transcript;
+
+        }
+
+        text = text.trim();
+
+        transcript.textContent = text;
+
+        if(event.results[event.results.length - 1].isFinal){
+
+            addHistory(text);
+
+            processCommand(text);
+
+        }
+
+    };
+
+
+    recognition.onerror = function(event){
+
+        console.log("Speech error:",event.error);
+
+        stopListening();
+
+        if(event.error === "not-allowed"){
+
+            speak(
+                "Microphone permission is blocked. Please allow microphone access."
+            );
+
+            state.textContent = "Microphone permission required";
+
+        }
+        else if(event.error === "no-speech"){
+
+            state.textContent = "I did not hear anything";
+
+        }
+        else{
+
+            state.textContent = "Please try again";
+
+        }
+
+    };
+
+
+    recognition.onend = function(){
+
+        stopListening();
+
+    };
+
+}
+else{
+
+    state.textContent =
+        "Speech recognition is not supported in this browser.";
+
+    micButton.disabled = true;
+
+}
+
+
+/* =========================================================
+   MICROPHONE BUTTON
+   ========================================================= */
+
+micButton.addEventListener("click",function(){
+
+    if(!recognition) return;
+
+    if(listening){
+
+        recognition.stop();
+
+    }
+    else{
+
+        startListening();
+
+    }
+
+});
+
+
+function startListening(){
+
+    if(!recognition) return;
+
+    try{
+
+        recognition.lang = getRecognitionLanguage();
+
+        recognition.start();
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+function stopListening(){
+
+    listening = false;
+
+    orbArea.classList.remove("listening");
+
+    micButton.innerHTML = "🎤";
+
+    systemStatus.textContent = "Ready";
+
+    state.textContent = "Ready to listen";
+
+}
+
+
+/* =========================================================
+   LANGUAGE DETECTION
+   ========================================================= */
+
+function getRecognitionLanguage(){
+
+    const saved =
+        localStorage.getItem("assistantLanguage");
+
+    if(saved === "hi"){
+        return "hi-IN";
+    }
+
+    return "en-IN";
+
+}
+
+
+/* =========================================================
+   VOICE SYNTHESIS
+   ========================================================= */
+
+let voices = [];
+
+function loadVoices(){
+
+    voices = speechSynthesis.getVoices();
+
+}
+
+loadVoices();
+
+if("onvoiceschanged" in speechSynthesis){
+
+    speechSynthesis.onvoiceschanged = loadVoices;
+
+}
+
+
+function chooseVoice(){
+
+    if(!voices.length){
+        return null;
+    }
+
+    const preferred = [
+
+        "Google UK English Female",
+        "Google US English",
+        "Microsoft Zira",
+        "Microsoft Jenny",
+        "Samantha",
+        "Karen"
+
+    ];
+
+    for(const name of preferred){
+
+        const found = voices.find(v =>
+            v.name.toLowerCase().includes(name.toLowerCase())
+        );
+
+        if(found) return found;
+
+    }
+
+    return voices.find(v =>
+        v.lang === "en-IN"
+    ) || voices.find(v =>
+        v.lang.startsWith("en")
+    ) || voices[0];
+
+}
+
+
+function speak(text, language="en-US"){
+
+    if(!("speechSynthesis" in window)){
+
+        return;
+
+    }
+
+    speechSynthesis.cancel();
+
+    const utterance =
+        new SpeechSynthesisUtterance(text);
+
+    utterance.text = text;
+
+    utterance.lang = language;
+
+    utterance.rate = 0.92;
+
+    utterance.pitch = 1.0;
+
+    utterance.volume = 1.0;
+
+    const voice = chooseVoice();
+
+    if(voice){
+
+        utterance.voice = voice;
+
+    }
+
+    utterance.onstart = function(){
+
+        state.textContent = "Speaking...";
+
+        systemStatus.textContent = "Speaking";
+
+    };
+
+    utterance.onend = function(){
+
+        state.textContent = "Ready to listen";
+
+        systemStatus.textContent = "Ready";
+
+    };
+
+    speechSynthesis.speak(utterance);
+
+}
+
+
+/* =========================================================
+   COMMAND PROCESSOR
+   ========================================================= */
+
+function processCommand(rawText){
+
+    const text =
+        rawText
+        .toLowerCase()
+        .trim();
+
+
+    /* STOP */
+
+    if(
+        text.includes("stop") ||
+        text.includes("shut up") ||
+        text.includes("quiet")
+    ){
+
+        speechSynthesis.cancel();
+
+        state.textContent = "Stopped";
+
+        return;
+
+    }
+
+
+    /* HELLO */
+
+    if(
+        text === "hello" ||
+        text.includes("hello assistant") ||
+        text.includes("hey assistant") ||
+        text.includes("hello alexa") ||
+        text.includes("hey alexa")
+    ){
+
+        const answer =
+            "Hello! I am ready. How can I help you?";
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* TIME */
+
+    if(
+        text.includes("what time") ||
+        text.includes("time is it") ||
+        text === "time"
+    ){
+
+        const now = new Date();
+
+        const time =
+            now.toLocaleTimeString(
+                "en-IN",
+                {
+                    hour:"numeric",
+                    minute:"2-digit"
+                }
+            );
+
+        const answer =
+            "The current time is " + time;
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* DATE */
+
+    if(
+        text.includes("today date") ||
+        text.includes("what is the date") ||
+        text.includes("today's date") ||
+        text === "date"
+    ){
+
+        const now = new Date();
+
+        const date =
+            now.toLocaleDateString(
+                "en-IN",
+                {
+                    weekday:"long",
+                    day:"numeric",
+                    month:"long",
+                    year:"numeric"
+                }
+            );
+
+        const answer =
+            "Today is " + date;
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* DAY */
+
+    if(
+        text.includes("what day") ||
+        text.includes("which day")
+    ){
+
+        const day =
+            new Date().toLocaleDateString(
+                "en-IN",
+                {
+                    weekday:"long"
+                }
+            );
+
+        const answer =
+            "Today is " + day;
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* GOOGLE */
+
+    if(
+        text.includes("open google") ||
+        text.includes("google kholo") ||
+        text.includes("google")
+    ){
+
+        speak("Opening Google.");
+
+        setTimeout(function(){
+
+            window.open(
+                "https://www.google.com",
+                "_blank"
+            );
+
+        },700);
+
+        return;
+
+    }
+
+
+    /* YOUTUBE */
+
+    if(
+        text.includes("open youtube") ||
+        text.includes("youtube kholo") ||
+        text.includes("youtube")
+    ){
+
+        speak("Opening YouTube.");
+
+        setTimeout(function(){
+
+            window.open(
+                "https://www.youtube.com",
+                "_blank"
+            );
+
+        },700);
+
+        return;
+
+    }
+
+
+    /* FACEBOOK */
+
+    if(
+        text.includes("open facebook")
+    ){
+
+        speak("Opening Facebook.");
+
+        setTimeout(function(){
+
+            window.open(
+                "https://www.facebook.com",
+                "_blank"
+            );
+
+        },700);
+
+        return;
+
+    }
+
+
+    /* SEARCH */
+
+    if(
+        text.startsWith("search for ") ||
+        text.startsWith("google search ")
+    ){
+
+        let query = text
+            .replace("search for ","")
+            .replace("google search ","")
+            .trim();
+
+        if(query){
+
+            const answer =
+                "Searching Google for " + query;
+
+            transcript.textContent = answer;
+
+            speak(answer);
+
+            setTimeout(function(){
+
+                window.open(
+                    "https://www.google.com/search?q=" +
+                    encodeURIComponent(query),
+                    "_blank"
+                );
+
+            },700);
+
+            return;
+
+        }
+
+    }
+
+
+    /* WEATHER */
+
+    if(
+        text.includes("weather")
+    ){
+
+        const answer =
+            "I can open the weather forecast for you.";
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        setTimeout(function(){
+
+            window.open(
+                "https://www.google.com/search?q=weather",
+                "_blank"
+            );
+
+        },900);
+
+        return;
+
+    }
+
+
+    /* WHO ARE YOU */
+
+    if(
+        text.includes("who are you") ||
+        text.includes("what are you")
+    ){
+
+        const answer =
+            "I am your personal browser voice assistant.";
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* HOW ARE YOU */
+
+    if(
+        text.includes("how are you")
+    ){
+
+        const answer =
+            "I am doing great and ready to help you.";
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* THANK YOU */
+
+    if(
+        text.includes("thank you") ||
+        text.includes("thanks")
+    ){
+
+        const answer =
+            "You're welcome.";
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* GOOD MORNING */
+
+    if(
+        text.includes("good morning")
+    ){
+
+        const answer =
+            "Good morning. I hope you have a wonderful day.";
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* GOOD NIGHT */
+
+    if(
+        text.includes("good night")
+    ){
+
+        const answer =
+            "Good night. Have a peaceful sleep.";
+
+        transcript.textContent = answer;
+
+        speak(answer);
+
+        return;
+
+    }
+
+
+    /* CALCULATOR */
+
+    if(
+        text.includes("calculate")
+    ){
+
+        const expression =
+            text
+            .replace("calculate","")
+            .trim();
+
+        try{
+
+            const safe =
+                expression.replace(
+                    /[^0-9+\-*/().% ]/g,
+                    ""
+                );
+
+            if(safe){
+
+                const result =
+                    Function(
+                        '"use strict"; return (' +
+                        safe +
+                        ')'
+                    )();
+
+                const answer =
+                    "The answer is " + result;
+
+                transcript.textContent = answer;
+
+                speak(answer);
+
+                return;
+
+            }
+
+        }
+        catch(e){}
+
+    }
+
+
+    /* UNKNOWN COMMAND */
+
+    const answer =
+        "I heard you say: " +
+        rawText +
+        ". I can currently handle basic voice commands, time, date, websites and Google searches.";
+
+    transcript.textContent = answer;
+
+    speak(answer);
+
+}
+
+
+/* =========================================================
+   QUICK BUTTON COMMAND
+   ========================================================= */
+
+function runCommand(command){
+
+    transcript.textContent = command;
+
+    addHistory(command);
+
+    processCommand(command);
+
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+function addHistory(command){
+
+    const item =
+        document.createElement("div");
+
+    item.className = "history-item";
+
+    const text =
+        document.createElement("span");
+
+    text.textContent = command;
+
+    const time =
+        document.createElement("span");
+
+    time.textContent =
+        new Date().toLocaleTimeString(
+            "en-IN",
+            {
+                hour:"numeric",
+                minute:"2-digit"
+            }
+        );
+
+    item.appendChild(text);
+
+    item.appendChild(time);
+
+    historyBox.prepend(item);
+
+
+    while(historyBox.children.length > 8){
+
+        historyBox.removeChild(
+            historyBox.lastChild
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GREETING
+   ========================================================= */
+
+function updateGreeting(){
+
+    const hour =
+        new Date().getHours();
+
+    if(hour < 12){
+
+        greeting.textContent =
+            "Good Morning ☀️";
+
+    }
+    else if(hour < 18){
+
+        greeting.textContent =
+            "Good Afternoon 🌤️";
+
+    }
+    else{
+
+        greeting.textContent =
+            "Good Evening 🌙";
+
+    }
+
+}
+
+updateGreeting();
+
+
+/* =========================================================
+   KEYBOARD SHORTCUT
+   Space = microphone
+   ========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.code === "Space" &&
+            event.target.tagName !== "INPUT" &&
+            event.target.tagName !== "TEXTAREA"
+        ){
+
+            event.preventDefault();
+
+            if(listening){
+
+                recognition.stop();
+
+            }
+            else{
+
+                startListening();
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   SIMPLE WAKE WORD
+   ========================================================= */
+
+/*
+   Browser continuous listening is intentionally NOT enabled
+   by default because it can consume microphone resources
+   and behave differently between browsers.
+
+   User can say "Hello Assistant" after pressing the mic.
+*/
+
+
+/* =========================================================
+   FIRST VISIT MESSAGE
+   ========================================================= */
+
+setTimeout(function(){
+
+    if(!localStorage.getItem("assistantWelcomed")){
+
+        const message =
+            "Hello! Tap the microphone and ask me something.";
+
+        transcript.textContent = message;
+
+        localStorage.setItem(
+            "assistantWelcomed",
+            "yes"
+        );
+
+    }
+
+},500);
+
+
+/* =========================================================
+   PREVENT SPEECH WHEN PAGE IS HIDDEN
+   ========================================================= */
+
+document.addEventListener(
+    "visibilitychange",
+    function(){
+
+        if(document.hidden){
+
+            speechSynthesis.cancel();
+
+            if(listening && recognition){
+
+                try{
+                    recognition.stop();
+                }
+                catch(e){}
+
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
